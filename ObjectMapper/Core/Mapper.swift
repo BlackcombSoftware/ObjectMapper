@@ -97,6 +97,14 @@ public final class Map {
             return pointer.memory
         }
     }
+    
+    public func mappedValue<T: Mappable>() -> T? {
+        if let model = Mapper<T>().map(currentValue) {
+            return model
+        }
+        
+        return nil
+    }
 	
 	/// Returns whether the receiver is success or failure.
 	public var isValid: Bool {
