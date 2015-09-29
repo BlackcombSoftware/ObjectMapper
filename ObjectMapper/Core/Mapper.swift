@@ -83,6 +83,20 @@ public final class Map {
 			return pointer.memory
 		}
 	}
+    
+    public func transformedValueOrFail<T, Transform: TransformType where Transform.Object == T>(transform: Transform) -> T {
+        if let value: T = transform.transformFromJSON(currentValue) {
+            return value
+        } else {
+            // Collects failed count
+            failedCount++
+            
+            // Returns dummy memory as a proxy for type `T`
+            let pointer = UnsafeMutablePointer<T>.alloc(0)
+            pointer.dealloc(0)
+            return pointer.memory
+        }
+    }
 	
 	/// Returns whether the receiver is success or failure.
 	public var isValid: Bool {
